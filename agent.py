@@ -37,20 +37,8 @@ tools = [
     }
 ]
 
-
-questions = [
-    "What is the fee for AI202?",
-    "What is the total fee for CS101 and AI202 after a 10% scholarship?",
-    "Is DS303 more expensive than CS101, and by how much?",
-    "Write a two-line welcome message for new AI students."
-]
-
-
-for question in questions:
-
-    print("\n" + "=" * 60)
-    print("QUESTION:", question)
-
+# FIXED: Wrapped the logic into a reusable 'agent' function so react_trace.py can call it
+def agent(question, max_steps=8):
     messages = [
         {
             "role": "system",
@@ -62,8 +50,8 @@ for question in questions:
         }
     ]
 
-    while True:
-
+    steps = 0
+    while steps < max_steps:
         response = client.chat.completions.create(
             model=MODEL,
             messages=messages,
@@ -74,13 +62,11 @@ for question in questions:
         message = response.choices[0].message
 
         if not message.tool_calls:
-            print("ANSWER:", message.content)
-            break
+            return message.content
 
         messages.append(message)
 
         for tool_call in message.tool_calls:
-
             name = tool_call.function.name
             arguments = eval(tool_call.function.arguments)
 
@@ -88,10 +74,8 @@ for question in questions:
 
             if name == "get_course_fee":
                 result = get_course_fee(arguments["course_code"])
-
             elif name == "calculate":
                 result = calculate(arguments["expression"])
-
             else:
                 result = "Unknown tool"
 
@@ -100,3 +84,22 @@ for question in questions:
                 "tool_call_id": tool_call.id,
                 "content": str(result)
             })
+        
+        steps += 1
+    
+    return "Max steps reached without a final answer."
+
+# Keeps your original standalone script working when you run agent.py directly
+if __name__ == "__main__":
+    questions = [
+        "What is the fee for AI202?",
+        "What is the total fee for CS101 and AI202 after a 10% scholarship?",
+        "Is DS303 more expensive than CS101, and by how much?",
+        "Write a two-line welcome message for new AI students."
+    ]
+
+    for q in questions:
+        print("\n" + "=" * 60)
+        print("QUESTION:", q)
+        ans = agent(q)
+        print("ANSWER:", ans)
