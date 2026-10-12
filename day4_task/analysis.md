@@ -50,7 +50,7 @@ weights.
 If the weight memory is underestimated, the model may not fit into the
 available memory even before considering the KV cache and runtime overhead.
 
----
+
 
 ## 3. Quantization
 
@@ -512,36 +512,3 @@ a moderate context is more practical than a larger or full-precision model.
 Before deploying the model in a public or commercial project, I would check
 the current model card and licence again.
 
----
-
-## 17. Sources Checked
-
-### Qwen
-
-Official model card:
-Qwen/Qwen3-8B
-
-Ollama:
-qwen3:8b
-
-Date checked: 1 October 2026
-
-### Mistral
-
-Official model card:
-mistralai/Mistral-7B-Instruct-v0.3
-
-Ollama:
-mistral:7b-instruct-v0.3-q4_K_M
-
-Date checked: 1 October 2026
-
-### IBM Granite
-
-Official model card:
-ibm-granite/granite-3.3-8b-instruct
-
-Ollama:
-granite3.3:8b
-
-Date checked: 1 October 2026

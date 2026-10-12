@@ -24,11 +24,8 @@ Challenge Result
 Budget: Rs. 30000
 CS101 + AI202 = Rs. 30,000
 CS101 + DS303 = Rs. 27,000
-Screenshot
 
-Add your output screenshot below:
 
-![Output Screenshot](your-image-name.png)
 Result
 
 Successfully implemented and tested a basic AI agent with tool calling.
